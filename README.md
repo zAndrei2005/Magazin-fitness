@@ -11,8 +11,8 @@ O aplicație web modernă dezvoltată în **Django**, dedicată sportivilor. Uti
 
 ## 🛠️ Tehnologii Utilizate
 * **Backend:** Python & Django
-* **Bază de date:** SQLite (dezvoltare) [cite: 9]
-* **Frontend:** HTML5, Template-uri Django, CSS [cite: 17]
+* **Bază de date:** SQLite (dezvoltare) 
+* **Frontend:** HTML5, Template-uri Django, CSS 
 
 ## 🚀 Instalare și Rulare
 1. Clonează repository-ul.

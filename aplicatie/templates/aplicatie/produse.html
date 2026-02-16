@@ -1,0 +1,200 @@
+{% extends 'aplicatie/baza.html' %}
+{% load static %}
+
+{% block titlu %}
+Lista de Produse - Magazin Fitness
+{% endblock %}
+
+{% block continut %}
+<section id="produse">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-warning">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <h1>Produsele disponibile</h1>
+    <div class="sortare">
+        <strong>Sortează după preț:</strong>
+        <a href="{% url 'produse_sort' 'a' %}{% if querystring %}?{{ querystring }}{% endif %}">Ascendent</a> |
+        <a href="{% url 'produse_sort' 'd' %}{% if querystring %}?{{ querystring }}{% endif %}">Descendent</a>
+    </div>
+
+    <form method="get" action="{{ request.path }}" class="form-filtru">
+    {% if form.non_field_errors %}
+      <div class="alert-eroare">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+    <div class="grid-filtre">
+      <div>{{ form.nume.label_tag }} {{ form.nume }} {{ form.nume.errors }}</div>
+      <div>{{ form.descriere.label_tag }} {{ form.descriere }} {{ form.descriere.errors }}</div>
+
+      <div>{{ form.categorie.label_tag }} {{ form.categorie }} {{ form.categorie.errors }}</div>
+      <div>{{ form.brand.label_tag }} {{ form.brand }} {{ form.brand.errors }}</div>
+      <div>{{ form.furnizor.label_tag }} {{ form.furnizor }} {{ form.furnizor.errors }}</div>
+
+      <div>{{ form.culori.label_tag }} {{ form.culori }} {{ form.culori.errors }}</div>
+      <div>{{ form.dimensiuni.label_tag }} {{ form.dimensiuni }} {{ form.dimensiuni.errors }}</div>
+
+      <div>{{ form.stoc_disponibil.label_tag }} {{ form.stoc_disponibil }} {{ form.stoc_disponibil.errors }}</div>
+
+      <div>{{ form.pret_min.label_tag }} {{ form.pret_min }} {{ form.pret_minim.errors }}</div>
+      <div>{{ form.pret_max.label_tag }} {{ form.pret_max }} {{ form.pret_maxim.errors }}</div>
+
+      <div>{{ form.data_min.label_tag }} {{ form.data_min }} {{ form.data_min.errors }}</div>
+      <div>{{ form.data_max.label_tag }} {{ form.data_max }} {{ form.data_max.errors }}</div>
+
+      <div>{{ form.nr_pe_pagina.label_tag }} {{ form.nr_pe_pagina }} {{ form.nr_pe_pagina.errors }}</div>
+    </div>
+
+    <button type="submit">Filtrează</button>
+    <a href="{{ request.path }}?reset=1{% if sort %}&sort={{ sort }}{% endif %}"
+     onclick="return confirm('Resetarea va elimina filtrele selectate. Continui?');">
+     Resetează
+    </a>
+  </form>
+
+    <div class="grid-produse">
+        {% for produs in page_obj %}
+          <article class="card-produs {% if produs.stoc == 0 %}produs-indisponibil{% endif %}" data-produs-id="{{ produs.id_produs }}">
+            <h2>
+              {% if produs.pk %}
+                <a href="{% url 'produs_detail' produs.pk %}">{{ produs.nume }}</a>
+              {% else %}
+                {{ produs.nume }} (ID Lipsă)
+              {% endif %}
+            </h2>
+            <p><strong>Preț:</strong> {{ produs.pret }} RON</p>
+            <p class="meta-categorie">
+            <a class="badge-categorie"
+                href="{% url 'categorie' produs.categorie.nume %}"
+                style="background: {{ produs.categorie.culoare|default:'#e5e7eb' }};">
+                {% if produs.categorie.icon %}
+                <i class="fa-solid {{ produs.categorie.icon }}"></i>
+                {% endif %}
+                {{ produs.categorie.nume }}
+            </a>
+            </p>
+            <p><strong>Brand:</strong> {{ produs.brand.nume }}</p>
+
+            {% if produs.descriere %}
+                <p>{{ produs.descriere|truncatechars:100 }}</p>
+            {% endif %}
+
+            {% if produs.stoc > 0 %}
+                <p style="color:green;"><strong>Disponibil în stoc</strong></p>
+                <p>Stoc: {{ produs.stoc }}</p>
+
+                {% with imagine_cale="aplicatie/imagini/"|add:produs.nume|lower|cut:' '|add:".png" %}
+                <button onclick="adaugaInCos({{ produs.id_produs|default:0 }}, {{ produs.stoc|default:0 }}, {{ produs.pret }}, '{{ produs.nume }}', '{% static imagine_cale %}')">
+                    Adaugă în coș
+                </button>
+                <button onclick="scade({{ produs.id_produs|default:0 }})">-</button>
+                <button onclick="creste({{ produs.id_produs|default:0}}, {{ produs.stoc|default:0 }}, {{ produs.pret }}, '{{ produs.nume }}', '{% static imagine_cale %}')">+</button>
+                {% endwith %}
+
+                <input type="number" 
+                        id="input-{{ produs.id_produs }}" 
+                        value="0" 
+                        min="0" 
+                        max="{{ produs.stoc|default:0 }}"
+                        onchange="seteazaCantitate({{ produs.id_produs }}, this.value, {{ produs.stoc|default:0 }})">
+
+            {% elif produs.stoc == 0 %}
+                <p style="color:red;" class = "indisponibil"><strong>Indisponibil</strong></p>
+            {% endif %}
+
+          </article>
+          {% empty %}
+              <p><em>Nu există produse disponibile momentan.</em></p>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="paginare">
+        {% if page_obj.has_previous %}
+            <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">« Înapoi</a>
+            {% else %}
+            <span class="disabled">← Înapoi</span>
+            {% endif %}
+
+        {% for num in paginator.page_range %}
+            {% if num == page_obj.number %}
+                <span class="pagina-curenta">{{ num }}</span>
+            {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                <a href="{{ request.path }}?page={{ num }}{% if querystring %}&{{ querystring }}{% endif %}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="{{ request.path }}?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Înainte »</a>
+        {% else %}
+            <span class="disabled">Următoarea →</span>
+        {% endif %}
+
+
+    </div>
+    {% endif %}
+</section>
+
+<style>
+.form-filtru{background:#f8f9fa;padding:1rem;margin-bottom:1rem;border-radius:10px}
+.grid-filtre{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem}
+.grid-produse{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-top:1rem}
+.card-produs{border:1px solid #ddd;border-radius:12px;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.paginare{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+.paginare a,.paginare span{padding:.4rem .7rem;border:1px solid #ccc;border-radius:8px;text-decoration:none;color:#333}
+.paginare .disabled{color:#aaa;border-color:#eee} 
+.grid-produse {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card-produs {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.paginare {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 2rem;
+}
+
+.paginare a, .paginare span {
+  padding: .4rem .7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+}
+
+.paginare .pagina-curenta {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+.paginare .disabled {
+  color: #aaa;
+  border-color: #eee;
+}
+
+.produs-indisponibil {
+    background: #eee;
+    opacity: 0.7;
+}
+.indisponibil {
+    color: red;
+    font-weight: bold;
+}
+
+
+</style>
+{% endblock %}

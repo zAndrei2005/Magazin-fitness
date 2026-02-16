@@ -1,0 +1,36 @@
+{% extends 'aplicatie/baza.html' %}
+{% block titlu %}Log Cereri{% endblock %}
+{% block continut %}
+<h1 style="text-align:center;">Cereri & Accesări</h1>
+
+{% if total_accesari %}
+    <h2>Număr total accesări: {{ total_accesari }}</h2>
+{% endif %}
+
+{% if accesari_detalii %}
+    <h3>Detalii accesări:</h3>
+    <ul>
+        {% for acc in accesari_detalii %}
+            <li>[{{ acc.id }}] {{ acc.ip_client|default:"necunoscut" }} - {{ acc.url }} - {{ acc.data }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if iduri_afis %}
+    <h3>Accesări pentru ID-uri:</h3>
+    <ul>
+        {% for acc in iduri_afis %}
+            <li>[{{ acc.id }}] {{ acc.ip_client|default:"necunoscut" }} - {{ acc.url }} - {{ acc.data }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if ultimele_afis %}
+    <h3>Ultimele accesări:</h3>
+    <ul>
+        {% for acc in ultimele_afis %}
+            <li>[{{ acc.id }}] {{ acc.ip_client|default:"necunoscut" }} - {{ acc.url_accesat }} - {{ acc.data_accesare }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'aplicatie/baza.html' %}
+{% load static %}
+
+{% block titlu %}
+Contact - Magazin Fitness
+{% endblock %}
+
+{% block continut %}
+<h1>Contact</h1>
+
+{% if messages %}
+  <div class="mesaje">
+    {% for message in messages %}
+      <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<form method="post" class="form-contact">
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="alert error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <div class="grid-form">
+    <div>{{ form.nume.label_tag }} {{ form.nume }} {{ form.nume.errors }}</div>
+    <div>{{ form.prenume.label_tag }} {{ form.prenume }} {{ form.prenume.errors }}</div>
+
+    <div>{{ form.cnp.label_tag }} {{ form.cnp }} {{ form.cnp.errors }}</div>
+    <div>{{ form.data_nasterii.label_tag }} {{ form.data_nasterii }} {{ form.data_nasterii.errors }}</div>
+
+    <div>{{ form.email.label_tag }} {{ form.email }} {{ form.email.errors }}</div>
+    <div>{{ form.email_confirm.label_tag }} {{ form.email_confirm }} {{ form.email_confirm.errors }}</div>
+
+    <div>{{ form.tip_mesaj.label_tag }} {{ form.tip_mesaj }} {{ form.tip_mesaj.errors }}</div>
+    <div>{{ form.subiect.label_tag }} {{ form.subiect }} {{ form.subiect.errors }}</div>
+
+    <div class="wide">
+      {{ form.zile_asteptare.label_tag }} {{ form.zile_asteptare }} {{ form.zile_asteptare.errors }}
+    </div>
+
+    <div class="wide">
+      {{ form.mesaj.label_tag }} {{ form.mesaj }} {{ form.mesaj.errors }}
+    </div>
+  </div>
+
+  <button type="submit">Trimite</button>
+</form>
+
+<style>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ====== CONTAINER GENERAL ====== */
+.form-contact {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* ====== TITLU ====== */
+.form-contact h1 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* ====== GRID ====== */
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.grid-form .wide {
+  grid-column: 1 / -1;
+}
+
+/* ====== LABELURI ====== */
+.form-contact label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.3rem;
+}
+
+/* ====== INPUTURI ====== */
+.form-contact input,
+.form-contact select,
+.form-contact textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-contact input:focus,
+.form-contact select:focus,
+.form-contact textarea:focus {
+  border-color: #0078d7;
+  box-shadow: 0 0 4px rgba(0, 120, 215, 0.3);
+  outline: none;
+}
+
+/* ====== ERORI ====== */
+.errorlist {
+  list-style: none;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.alert.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.alert.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* ====== BUTON ====== */
+button[type="submit"] {
+  display: block;
+  margin: 1.2rem auto 0 auto;
+  background-color: #0078d7;
+  color: white;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+button[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 600px) {
+  .form-contact {
+    padding: 1.2rem;
+  }
+}
+</style>
+
+
+{% endblock %}

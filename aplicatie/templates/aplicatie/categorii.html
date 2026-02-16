@@ -1,0 +1,154 @@
+{% extends 'aplicatie/baza.html' %}
+{% load static %}
+
+{% block titlu %}
+Lista de Produse - Magazin Fitness
+{% endblock %}
+
+{% block continut %}
+<section id="produse">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if categorie_selectata %}
+    <div class="header-categorie"
+        style="border-left: 10px solid {{ categorie_selectata.culoare|default:'#e5e7eb' }}; padding-left: .75rem;">
+        <h1>
+        {% if categorie_selectata.icon %}
+            <i class="fa-solid {{ categorie_selectata.icon }}"></i>
+        {% endif %}
+        {{ categorie_selectata.nume }}
+        </h1>
+        {% if categorie_selectata.descriere %}<p>{{ categorie_selectata.descriere }}</p>{% endif %}
+    </div>
+    {% endif %}
+
+    <form method="get" action="{{ request.path }}" class="form-filtru">
+        {% if form.non_field_errors %}
+            <div class="alert-eroare">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="grid-filtre">
+            <div>{{ form.nume.label_tag }} {{ form.nume }} {{ form.nume.errors }}</div>
+            <div>{{ form.descriere.label_tag }} {{ form.descriere }} {{ form.descriere.errors }}</div>
+            <div>{{ form.categorie.label_tag }} {{ form.categorie }} {{ form.categorie.errors }}
+                {{ form.categorie_hidden }}  
+            </div>
+            <div>{{ form.brand.label_tag }} {{ form.brand }} {{ form.brand.errors }}</div>
+            <div>{{ form.furnizor.label_tag }} {{ form.furnizor }} {{ form.furnizor.errors }}</div>
+            <div>{{ form.culori.label_tag }} {{ form.culori }} {{ form.culori.errors }}</div>
+            <div>{{ form.dimensiuni.label_tag }} {{ form.dimensiuni }} {{ form.dimensiuni.errors }}</div>
+            <div>{{ form.stoc_disponibil.label_tag }} {{ form.stoc_disponibil }} {{ form.stoc_disponibil.errors }}</div>
+            <div>{{ form.pret_min.label_tag }} {{ form.pret_min }} {{ form.pret_min.errors }}</div>
+            <div>{{ form.pret_max.label_tag }} {{ form.pret_max }} {{ form.pret_max.errors }}</div>
+            <div>{{ form.data_min.label_tag }} {{ form.data_min }} {{ form.data_min.errors }}</div>
+            <div>{{ form.data_max.label_tag }} {{ form.data_max }} {{ form.data_max.errors }}</div>
+            <div>{{ form.nr_pe_pagina.label_tag }} {{ form.nr_pe_pagina }}</div>
+        </div>
+
+        <button type="submit">Filtrează</button>
+        <a href="{{ request.path }}?reset=1{% if sort %}&sort={{ sort }}{% endif %}"
+            onclick="return confirm('Resetarea va elimina filtrele selectate. Continui?');">
+            Resetează
+        </a>
+        </form>
+
+
+    <div class="grid-produse">
+        {% for produs in page_obj %}
+        <article class="card-produs">
+            <h2><a href="{% url 'produs_detail' produs.pk %}">{{ produs.nume }}</a></h2>
+            <p><strong>Preț:</strong> {{ produs.pret }} RON</p>
+            <p><strong>Categorie:</strong> {{ produs.categorie.nume }}</p>
+            <p><strong>Brand:</strong> {{ produs.brand.nume }}</p>
+
+            {% if produs.descriere %}
+                <p>{{ produs.descriere|truncatechars:100 }}</p>
+            {% endif %}
+
+            {% if produs.stoc_disponibil %}
+                <p style="color:green;"><strong>Disponibil în stoc</strong></p>
+            {% else %}
+                <p style="color:red;"><strong>Indisponibil</strong></p>
+            {% endif %}
+        </article>
+        {% empty %}
+            <p>Nu există produse disponibile momentan.</p>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="paginare">
+        {% if page_obj.has_previous %}
+            <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">« Înapoi</a>
+            {% else %}
+            <span class="disabled">← Înapoi</span>
+            {% endif %}
+
+        {% for num in paginator.page_range %}
+            {% if num == page_obj.number %}
+                <span class="pagina-curenta">{{ num }}</span>
+            {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                <a href="{{ request.path }}?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Înainte »</a>
+        {% else %}
+            <span class="disabled">Următoarea →</span>
+        {% endif %}
+
+
+    </div>
+    {% endif %}
+</section>
+
+<style> 
+.form-filtru{background:#f8f9fa;padding:1rem;margin-bottom:1rem;border-radius:10px}
+.grid-filtre{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem}    
+.grid-produse {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.card-produs {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.paginare {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 2rem;
+}
+
+.paginare a, .paginare span {
+  padding: .4rem .7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+}
+
+.paginare .pagina-curenta {
+  background: #333;
+  color: white;
+  border-color: #333;
+}
+
+.paginare .disabled {
+  color: #aaa;
+  border-color: #eee;
+}
+
+</style>
+{% endblock %}

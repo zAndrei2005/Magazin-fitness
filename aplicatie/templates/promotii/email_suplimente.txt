@@ -1,0 +1,14 @@
+Subiect: {{ subiect }}
+
+Bună {{ user.first_name|default:"" }},
+
+Avem o promoție specială la categoria {{ categorie.nume }}!
+
+{{ mesaj_baza }}
+
+Reducere: {{ procent_discount }}%
+Promoția este valabilă până la data de {{ data_expirare|date:"d.m.Y H:i" }}.
+
+Grăbește-te să profiți!
+
+Echipa Magazin Fitness

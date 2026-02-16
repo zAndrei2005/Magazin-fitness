@@ -1,0 +1,31 @@
+{% extends "aplicatie/baza.html" %}
+{% load static %}
+
+{% block titlu %}Pagina Principală{% endblock %}
+
+{% block continut %}
+<section id="sectiunea1">
+    <h2>Bun venit!</h2>
+    <p>O aplicație web dedicată pasionaților de fitness și culturism, unde utilizatorii pot vizualiza și achiziționa o gamă variată de accesorii sportive (ex: mănuși de antrenament, centuri de ridicare, shakere, genți de sală, benzi elastice, echipamente de protecție etc.) prin intermediul unui coș virtual.<br>
+Fiecare produs listat pe platformă dispune de o pagină detaliată care include: prețul, dimensiunile disponibile, culorile, materialele din care este confecționat, o descriere tehnică a produsului și informații despre brandul producător.<br>
+Utilizatorii pot filtra rapid lista de produse folosind criterii precum: preț, categorie de produs, material, brand, culoare sau disponibilitate. Platforma oferă și o secțiune de customer support, prin care utilizatorii pot contacta echipa de asistență pentru întrebări legate de produse, comenzi sau livrări.<br>
+Clienții autentificați beneficiază de funcționalități suplimentare, precum crearea unui wishlist personal în care pot salva produsele preferate, precum și posibilitatea de a stoca detaliile de comandă — date de contact, adresă de livrare și metoda de plată preferată — pentru a simplifica procesul de cumpărare.
+Aplicația oferă o experiență intuitivă și modernă, concepută pentru a sprijini sportivii și iubitorii de fitness în alegerea echipamentelor potrivite pentru performanță și confort
+</p>
+    <img src="{% static 'aplicatie/imagini/accesorii sala.jpg' %}" alt="Sala de fitness" width="400">
+</section>
+
+<section id="sectiunea2">
+    <h2>Produse populare</h2>
+    <p>Mănuși, centuri, shakere și alte accesorii esențiale.</p>
+</section>
+
+<section id="sectiunea3">
+    <h2>Avantajele noastre</h2>
+    <ul>
+        <li>Livrare rapidă</li>
+        <li>Produse de calitate</li>
+        <li>Suport clienți dedicat</li>
+    </ul>
+</section>
+{% endblock %}

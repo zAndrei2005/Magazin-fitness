@@ -1,0 +1,45 @@
+{% extends 'aplicatie/baza.html' %}
+{% load static %}
+
+{% block titlu %}Detalii produs{% endblock %}
+
+{% block continut %}
+<h1>{{ produs.nume }}</h1>
+
+<img src="{% static 'aplicatie/imagini/' %}{{ produs.nume|lower|cut:' ' }}.png"
+     alt="{{ produs.nume }}"
+     style="max-width:300px;border-radius:12px;"
+     onerror="this.onerror=null;this.src='{% static 'aplicatie/imagini/WheyProteinChoco5kg.png' %}';">
+    
+<p><strong>Preț:</strong> {{ produs.pret }} RON</p>
+<p>
+  <a class="badge-categorie"
+     href="{% url 'categorie' produs.categorie.nume %}"
+     style="background: {{ produs.categorie.culoare|default:'#e5e7eb' }};">
+     {% if produs.categorie.icon %}
+       <i class="fa-solid {{ produs.categorie.icon }}"></i>
+     {% endif %}
+     {{ produs.categorie.nume }}
+  </a>
+</p>
+<p><strong>Brand:</strong> {{ produs.brand }}</p>
+<p><strong>Descriere:</strong> {{ produs.descriere }}</p>
+<p><strong>Stoc:</strong> {% if produs.stoc_disponibil %}Disponibil{% else %}Indisponibil{% endif %}</p>
+{% if produs.stoc_disponibil %}
+                <button onclick="adaugaInCos({{ produs.id }}, {{ produs.stoc }})">
+                    Adaugă în coș
+                </button>
+
+                <button onclick="scade({{ produs.id }})">-</button>
+                <button onclick="creste({{ produs.id }}, {{ produs.stoc }})">+</button>
+
+                <input type="number"
+                      min="1"
+                      max="{{ produs.stoc }}"
+                      onchange="seteazaCantitate({{ produs.id }}, this.value, {{ produs.stoc }})">
+{% endif %} <br><br>
+
+<a href="{% url 'produse' %}">← Înapoi la lista de produse</a>
+{% endblock %}
+
+

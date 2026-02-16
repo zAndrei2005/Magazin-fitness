@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="utf-8">
+    <title>Confirmare e-mail</title>
+  </head>
+  <body>
+    <h1>Bun venit, {{ user.first_name }} {{ user.last_name }}!</h1>
+
+    <p>Ne bucurăm că ți-ai creat un cont pe site-ul nostru.</p>
+
+    <p>
+      Username-ul tău este: <strong>{{ user.username }}</strong>
+    </p>
+
+    <p>
+      Pentru a-ți confirma adresa de e-mail, te rugăm să faci click pe
+      următorul link:
+    </p>
+
+    <p>
+      <a href="{{ confirm_url }}">{{ confirm_url }}</a>
+    </p>
+
+    <p>Dacă nu tu ți-ai creat contul, poți ignora acest mesaj.</p>
+
+    <hr>
+    <img src="https://via.placeholder.com/200x60?text=Logo+Fitness" alt="Logo site">
+  </body>
+</html>

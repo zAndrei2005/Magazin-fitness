@@ -1,0 +1,13 @@
+Subiect: {{ subiect }}
+
+Salut {{ user.first_name|default:user.username }},
+
+Știm că ți-au plăcut produsele din categoria {{ categorie.nume }}.
+Avem o ofertă pentru tine:
+
+{{ mesaj_baza }}
+
+Această promoție expiră la: {{ data_expirare|date:"d.m.Y H:i" }}.
+
+Te așteptăm pe site,
+Magazin Fitness

@@ -1,0 +1,124 @@
+{% load static %}
+{% now "U" as ts %}
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titlu %}Magazin Fitness{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'aplicatie/css/stil.css' %}?v={{ ts }}">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-..."
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="{% static 'aplicatie/js/cos.js' %}"></script>
+</head>
+<body>
+
+<header>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div id="banner-oferta" style="
+            display:none;
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            background:#ff4757;
+            color:white;
+            padding:20px;
+            border-radius:12px;
+            font-weight:bold;
+            animation:pulse 1s infinite;
+            cursor:pointer;
+            z-index:9999;
+        ">
+            🎉 OFERTĂ REDUCERE 50% 🎉
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                if (Math.random() < 0.3) {  // 30% șansă
+                    const banner = document.getElementById("banner-oferta");
+                    banner.style.display = "block";
+
+                    banner.onclick = function () {
+                        window.location.href = "{% url 'acorda_oferta' %}";
+                    }
+                }
+            });
+        </script>
+
+        <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        </style>
+    {% endif %}
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'index' %}">Acasă</a>
+                <ul class="dropdown">
+                    <li><a href="#sectiunea1">Prezentare</a></li>
+                    <li><a href="#sectiunea2">Produse populare</a></li>
+                    <li><a href="#sectiunea3">Avantaje</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'despre' %}">Despre</a>
+                <ul class="dropdown">
+                    <li><a href="#echipa">Echipa</a></li>
+                    <li><a href="#istoric">Istoric</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'produse' %}">Produse</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            {% if perms.admin.view_logentry %}
+                <li><a href="{% url 'info' %}">Info</a></li>
+                <li><a href="{% url 'log' %}">Log</a></li>
+            {% endif %}
+            <li>
+                <a href="{% url 'categorii' %}">Categorii</a>
+                <ul class="dropdown">
+                    {% for c in categorii %}
+                        <li><a href="{% url 'categorie' c.nume %}">{{ c.nume }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {# link add produs doar dacă are permisiunea de add #}
+            {% if perms.aplicatie.add_produs %}
+                <li><a href="{% url 'adauga_produs' %}">Adaugă produs</a></li>
+            {% endif %}
+            <li>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            </li>
+            {% if not user.is_authenticated %}
+                <li><a href= "{% url 'register' %}">Register</a></li>
+            {% endif %}
+            <li><a href="{% url 'cos' %}"> Coș</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    {% block continut %}
+    {% endblock %}
+</main>
+<br><br><br><br><br>
+<footer>
+    <p>IP utilizator: {{ ip_utilizator }}</p>
+</footer>
+
+</body>
+</html>

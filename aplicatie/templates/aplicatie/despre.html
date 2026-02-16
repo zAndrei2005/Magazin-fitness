@@ -1,0 +1,17 @@
+{% extends "aplicatie/baza.html" %}
+{% load static %}
+
+{% block titlu %}Despre Noi{% endblock %}
+
+{% block continut %}
+<section id="echipa">
+    <h2>Echipa noastră</h2>
+    <p>Suntem o echipă tânără, pasionată de sport și tehnologie.</p>
+    <img src="{% static 'aplicatie/imagini/accesorii sala.jpg' %}" width="400">
+</section>
+
+<section id="istoric">
+    <h2>Istoric</h2>
+    <p>Magazinul a fost fondat în 2024, din dorința de a aduce echipamente de calitate sportivilor din România.</p>
+</section>
+{% endblock %}

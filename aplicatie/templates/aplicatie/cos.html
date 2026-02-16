@@ -1,0 +1,35 @@
+{% extends "aplicatie/baza.html" %}
+{% load static %}
+
+{% block continut %}
+<h1>Coșul tău</h1>
+
+<div>
+    <label>Sortează după:</label>
+    <select onchange="sorteazaCos(this.value)">
+        <option value="nume">Nume</option>
+        <option value="pret">Preț</option>
+    </select>
+</div>
+
+<div id="lista-cos"></div>
+
+<hr>
+
+<p><strong>Total produse:</strong> <span id="total-produse">0</span></p>
+<p><strong>Total preț:</strong> <span id="total-pret">0</span> RON</p>
+
+<button onclick="cumpara()" class="btn-cumpara">
+    Cumpără
+</button>
+
+<style>
+#lista-cos .card-produs {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+</style>
+{% endblock %}
+

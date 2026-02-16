@@ -1,0 +1,164 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+a { color: #000 }
+
+/* container navbar */
+/* === NAVBAR, vizibil garantat === */
+header {
+  position: sticky;      /* rămâne lipit sus */
+  top: 0;
+  z-index: 9999;         /* peste orice altceva */
+}
+
+.navbar {
+  background: #333;      /* fundal întunecat vizibil */
+  min-height: 52px;      /* înălțime fixă, să NU colapseze */
+  width: 100%;
+}
+
+.navbar > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;         /* fără float-uri */
+  align-items: center;   /* centrare pe verticală */
+  gap: 0;
+}
+
+.navbar > ul > li {
+  position: relative;    /* ancoră pentru dropdown */
+}
+
+.navbar > ul > li > a {
+  display: block;
+  padding: 14px 20px;
+  color: #fff !important;      /* forțează text alb */
+  text-decoration: none;
+  background: #333;            /* fundal pe link, să fie sigur vizibil */
+}
+
+.navbar > ul > li:hover > a {
+  background: #444;
+}
+
+/* --- Dropdown --- */
+.navbar .dropdown {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 180px;
+  background: #555;
+  border: 1px solid #444;
+  z-index: 10000;
+}
+
+.navbar .dropdown li { display: block; }
+.navbar .dropdown a {
+  display: block;
+  white-space: nowrap;
+  padding: 10px 14px;
+  color: #fff !important;
+}
+
+.navbar li:hover > .dropdown,
+.navbar li:focus-within > .dropdown {
+  display: block;
+}
+
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+img {
+    margin-left: 2%;
+}
+h2{
+    margin-left: 2%;
+}
+p{
+    margin-left: 4%;
+}
+
+.badge-categorie {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  color: #fff;
+  text-decoration: none;
+  font-size: .85rem;
+}
+.badge-categorie i { font-size: .9rem; }
+
+.form-filtru select,
+.form-filtru input {
+  width: 100%;
+  padding: .3rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.alert-eroare { background:#fee2e2; color:#7f1d1d; padding:.6rem; border-radius:8px; margin-bottom:.6rem; }
+ul.errorlist { margin:.25rem 0 0; padding-left: 1rem; color:#b91c1c; }
+
+.alert {
+  margin: 10px auto;
+  padding: 10px 15px;
+  border-radius: 6px;
+  width: 80%;
+  text-align: center;
+}
+.alert-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+
+.formular-produs {
+  width: 60%;
+  margin: 0 auto;
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.formular-produs input, .formular-produs select, .formular-produs textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: .5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.formular-produs button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: .7rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.formular-produs button:hover {
+  background: #555;
+}
+.in-cos {
+    border: 2px solid green;
+}
+#lista-cos .card-produs {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}

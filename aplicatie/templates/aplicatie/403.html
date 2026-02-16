@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Eroare 403</title>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+        <p>Salut {{ user.username }}</p>
+    {% else %}
+        <p>Salut preastimate anonim</p>
+    {% endif %}
+
+    <h1>
+        {% if titlu %}
+            {{ titlu }}
+        {% else %}
+            Eroare 403
+        {% endif %}
+    </h1>
+
+    <p>{{ mesaj_personalizat }}</p>
+
+    <p>
+        Ai ajuns pe o pagină interzisă de
+        <strong>{{ nr_403 }}</strong> ori în această sesiune.
+    </p>
+
+    {% if nr_403 > N_MAX_403 %}
+        <p style="color:red; font-weight:bold;">
+            Ai depășit numărul maxim de accesări interzise!
+        </p>
+    {% endif %}
+
+</body>
+</html>

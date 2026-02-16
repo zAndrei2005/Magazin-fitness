@@ -1,0 +1,21 @@
+{% extends "aplicatie/baza.html" %}
+
+{% block continut %}
+<h1>Profilul meu</h1>
+
+<ul>
+    <li><strong>Username:</strong> {{ profil.username }}</li>
+    <li><strong>Email:</strong> {{ profil.email }}</li>
+    <li><strong>Nume:</strong> {{ profil.first_name }} {{ profil.last_name }}</li>
+    <li><strong>Vârsta:</strong> {{ profil.varsta }}</li>
+    <li><strong>Telefon:</strong> {{ profil.telefon }}</li>
+    <li><strong>Oraș:</strong> {{ profil.oras }}</li>
+    <li><strong>Data nașterii:</strong> {{ profil.data_nasterii }}</li>
+    <li><strong>Gen:</strong> {{ profil.gen }}</li>
+</ul>
+
+<p>
+    <a href="{% url 'schimba_parola' %}">Schimbă parola</a>
+</p>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ro">
+    <head>
+        <title>{{titlu_tab}}</title>
+        <link rel="stylesheet" href="{% static 'aplicatie/css/stil.css' %}" type="text/css" />
+    </head>
+    <body>
+        <h1>{{titlu_articol}}</h1>
+        <p>{{continut_articol}}</p>
+        {# Comentariu de o linie #}
+        <a href="{% url 'info' %}?a=10&b=20&a=30">Informatii</a>
+        <img src="{% static 'aplicatie/imagini/accesorii sala.jpg' %}" alt="Logo">
+    </body>
+</html>

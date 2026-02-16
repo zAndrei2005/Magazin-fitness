@@ -1,0 +1,43 @@
+{% extends 'aplicatie/baza.html' %}
+{% block titlu %}Informații despre server{% endblock %}
+{% block continut %}
+<h1 style="text-align:center;">Informații despre server</h1>
+
+{% if param_data %}
+    <div>{{ data_html|safe }}</div>
+{% endif %}
+
+<h2>Parametrii folosiți pe site:</h2>
+<ul>
+    {% for p in parametrii %}
+        <li>{{ p }}</li>
+    {% endfor %}
+</ul>
+
+{% if coloane %}
+    <table border="1" style="border-collapse: collapse; width: 90%; margin: 20px auto; text-align:center;">
+        <tr>
+            {% for c in coloane %}
+                <th>{{ c }}</th>
+            {% endfor %}
+        </tr>
+        {% for acc in log_list %}
+        <tr>
+            {% for c in coloane %}
+                <td>
+                    {% if c == 'id' %}{{ acc.id }}
+                    {% elif c == 'ip_client' %}{{ acc.ip_client|default:"necunoscut" }}
+                    {% elif c == 'url' %}{{ acc.url_accesat }}
+                    {% elif c == 'data' %}{{ acc.data_accesare }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+<h2>Cea mai puțin accesată pagină: {{ min_accesat }}</h2>
+<h2>Cea mai des accesată pagină: {{ max_accesat }}</h2>
+
+{% endblock %}

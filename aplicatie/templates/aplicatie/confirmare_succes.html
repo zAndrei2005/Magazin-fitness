@@ -1,0 +1,7 @@
+{% extends "aplicatie/baza.html" %}
+
+{% block continut %}
+  <h1>E-mail confirmat</h1>
+  <p>Bună, {{ user.first_name }}! E-mailul tău a fost confirmat cu succes.</p>
+  <p>Te poți autentifica acum: <a href="{% url 'login' %}">Login</a></p>
+{% endblock %}

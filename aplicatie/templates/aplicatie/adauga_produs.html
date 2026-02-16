@@ -1,0 +1,28 @@
+{% extends 'aplicatie/baza.html' %}
+{% block titlu %}Adaugă produs{% endblock %}
+
+{% block continut %}
+<h1 style="text-align:center;">Adaugă produs</h1>
+
+<form method="post" class="formular-produs">
+  {% csrf_token %}
+
+  <div>{{ form.nume.label_tag }} {{ form.nume }} {{ form.nume.errors }}</div>
+  <div>{{ form.descriere.label_tag }} {{ form.descriere }} {{ form.descriere.errors }}</div>
+  <div>{{ form.pret.label_tag }} {{ form.pret }} {{ form.pret.errors }}</div>
+  <div>{{ form.categorie.label_tag }} {{ form.categorie }} {{ form.categorie.errors }}</div>
+  <div>{{ form.brand.label_tag }} {{ form.brand }} {{ form.brand.errors }}</div>
+  <div>{{ form.furnizor.label_tag }} {{ form.furnizor }} {{ form.furnizor.errors }}</div>
+  <div>{{ form.dimensiuni.label_tag }} {{ form.dimensiuni }} {{ form.dimensiuni.errors }}</div>
+  <div>{{ form.culori.label_tag }} {{ form.culori }} {{ form.culori.errors }}</div>
+
+  <hr>
+  <div>{{ form.stoc_initial.label_tag }} {{ form.stoc_initial }} {{ form.stoc_initial.errors }}</div>
+  <div>{{ form.reducere_pct.label_tag }} {{ form.reducere_pct }} {{ form.reducere_pct.errors }}</div>
+
+  <div>{{ form.cost_achizitie.label_tag }} {{ form.cost_achizitie }} {{ form.cost_achizitie.errors }}</div>
+  <div>{{ form.adaos_pct.label_tag }} {{ form.adaos_pct }} {{ form.adaos_pct.errors }}</div>
+
+  <button type="submit">Salvează</button>
+</form>
+{% endblock %}

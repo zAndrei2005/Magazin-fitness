@@ -1,0 +1,66 @@
+{% extends 'aplicatie/baza.html' %}
+{% load static %}
+
+{% block titlu %}Înregistrare{% endblock %}
+
+{% block continut %}
+<div class="container-register">
+    <h1>Înregistrare</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <small class="error">{{ field.errors|striptags }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Înregistrează-te</button>
+    </form>
+
+    <p>Ai deja cont? <a href="{% url 'login' %}">Autentifică-te aici</a>.</p>
+</div>
+
+<style>
+.container-register {
+    max-width: 450px;
+    margin: auto;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+.error {
+    color: red;
+}
+button {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background: #0056b3;
+}
+</style>
+{% endblock %}
